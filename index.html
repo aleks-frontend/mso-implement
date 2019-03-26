@@ -98,6 +98,10 @@
         transform: translateX(-50%);
         width: 70pt;
       }
+      
+      .textFit__container {
+        max-height: 2.3em;
+      }
 
       /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
     </style>
@@ -143,8 +147,13 @@
             <div class="content" data-max-height="135">we’ll donate {{{BD__percentage--drc}}}% of every purchase back to<br> your school</div><!--content-->
             <div class="info">
               <div class="info__label">Available at:</div><!--info__label-->
-              <div class="info__name"><span class="textFit">{{team.name}}{{^team.name}}[Bakery Name]{{/team.name}}<span></div><!--info__name-->
-              <div class="info__address"><span class="textFit">{{team.address}}{{^team.address}}[Bakery Address]{{/team.address}}</span></div><!--info__address-->
+              {{^team.mso}}<div class="info__name"><span class="textFit">{{team.name}}{{^team.name}}[Bakery Name]{{/team.name}}<span></div>{{/team.mso}}
+              {{^team.mso}}<div class="info__address js-mso-hide"><span class="textFit">{{team.address}}{{^team.address}}[Bakery Address]{{/team.address}}</span></div>{{/team.mso}}
+              {{#team.mso}}
+              <div class="textFit__container">
+                <span class="textFit--vert">{{team.mso}}</span><!--info__address-->
+              </div><!-- end textFit__container -->
+              {{/team.mso}}
             </div><!--info-->
           </div><!--body-->
           <div class="footer footer--secondary">
@@ -201,6 +210,12 @@
       // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
       TextFit.fit({
         selector: '.textFit'
+      });
+
+      TextFit.fit({
+        selector: '.textFit--vert',
+        fitMode: 'vertical',
+        alignItems: 'flex-start'
       });
 
     </script>
